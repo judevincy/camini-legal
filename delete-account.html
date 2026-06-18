@@ -1,69 +1,307 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Camini – Delete Account</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            max-width: 720px;
-            margin: 0 auto;
-            padding: 40px 24px;
-            color: #1a1a1a;
-            line-height: 1.7;
-        }
-        h1 { font-size: 28px; margin-bottom: 4px; }
-        h2 { font-size: 18px; margin-top: 36px; }
-        p, li { font-size: 15px; color: #333; }
-        .steps { background: #f5f5f5; border-radius: 12px; padding: 20px 28px; margin: 24px 0; }
-        .steps ol { margin: 0; padding-left: 20px; }
-        .steps li { margin-bottom: 8px; }
-        a { color: #2563eb; }
-        .email-btn {
-            display: inline-block;
-            background: #1a1a1a;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: 600;
-            margin-top: 8px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Camini – Delete Account</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #080810;
+      --surface: #12122A;
+      --gold:    #FFD700;
+      --purple:  #7C3AED;
+      --text:    #E8E6F0;
+      --muted:   #8A84A8;
+      --border:  rgba(255,255,255,0.07);
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 420px;
+      background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(124,58,237,0.28) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 64px 24px 80px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .logo-wrap {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 72px; height: 72px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, rgba(255,215,0,0.18), rgba(124,58,237,0.18));
+      border: 1.5px solid rgba(255,215,0,0.35);
+      margin-bottom: 20px;
+      font-size: 36px;
+    }
+
+    .header h1 {
+      font-size: 30px;
+      font-weight: 700;
+      background: linear-gradient(90deg, #FFD700 0%, #E8B4FF 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+
+    .header .subtitle { font-size: 15px; color: var(--muted); }
+
+    .updated-badge {
+      display: inline-block;
+      margin-top: 14px;
+      background: rgba(255,215,0,0.10);
+      border: 1px solid rgba(255,215,0,0.25);
+      border-radius: 20px;
+      padding: 4px 14px;
+      font-size: 12px;
+      color: var(--gold);
+    }
+
+    .intro-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 22px 26px;
+      margin-bottom: 32px;
+      font-size: 15px;
+      color: rgba(232,230,240,0.80);
+      line-height: 1.75;
+    }
+
+    .section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 26px 28px;
+      margin-bottom: 14px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 100%;
+      background: linear-gradient(180deg, #FFD700, #7C3AED);
+      border-radius: 3px 0 0 3px;
+    }
+
+    .section h2 {
+      font-size: 17px;
+      font-weight: 600;
+      color: #FFFFFF;
+      margin-bottom: 16px;
+    }
+
+    .steps-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .steps-list li {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      font-size: 14px;
+      color: rgba(232,230,240,0.75);
+      line-height: 1.65;
+    }
+
+    .step-num {
+      flex-shrink: 0;
+      width: 26px; height: 26px;
+      border-radius: 8px;
+      background: rgba(255,215,0,0.12);
+      border: 1px solid rgba(255,215,0,0.30);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: #FFD700;
+    }
+
+    .steps-list li strong { color: #E8E6F0; font-weight: 600; }
+
+    .item-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .item-list li {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      font-size: 14px;
+      color: rgba(232,230,240,0.72);
+      line-height: 1.65;
+    }
+
+    .item-list li .dot {
+      flex-shrink: 0;
+      margin-top: 7px;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #FFD700;
+      opacity: 0.7;
+    }
+
+    .item-list li strong { color: #E8E6F0; font-weight: 600; }
+
+    .contact-card {
+      background: linear-gradient(135deg, rgba(255,215,0,0.08), rgba(124,58,237,0.08));
+      border: 1px solid rgba(255,215,0,0.20);
+      border-radius: 20px;
+      padding: 30px 26px;
+      text-align: center;
+      margin-bottom: 14px;
+    }
+
+    .contact-card p {
+      font-size: 14px;
+      color: rgba(232,230,240,0.72);
+      margin-bottom: 16px;
+    }
+
+    .contact-card a {
+      display: inline-block;
+      background: #FFD700;
+      color: #000000;
+      font-weight: 700;
+      font-size: 15px;
+      padding: 12px 28px;
+      border-radius: 14px;
+      text-decoration: none;
+    }
+
+    .contact-card a:hover { opacity: 0.88; }
+
+    .footer {
+      text-align: center;
+      margin-top: 48px;
+      font-size: 13px;
+      color: rgba(138,132,168,0.45);
+    }
+
+    .footer a { color: rgba(167,139,250,0.7); text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 480px) {
+      .page { padding: 40px 16px 60px; }
+      .header h1 { font-size: 24px; }
+      .section { padding: 20px 18px; }
+    }
+  </style>
 </head>
 <body>
+  <div class="page">
 
-<h1>Delete Your Camini Account</h1>
+    <div class="header">
+      <div class="logo-wrap">✦</div>
+      <h1>Delete Your Account</h1>
+      <p class="subtitle">Camini — AI photo art app</p>
+      <span class="updated-badge">Last updated: June 18, 2026</span>
+    </div>
 
-<p>You can request deletion of your Camini account and all associated data by following the steps below.</p>
+    <div class="intro-card">
+      You can request deletion of your Camini account and all associated data at any time. Follow the steps below to submit your request directly from the app.
+    </div>
 
-<h2>How to delete your account</h2>
+    <div class="section">
+      <h2>How to delete your account</h2>
+      <ol class="steps-list">
+        <li>
+          <div class="step-num">1</div>
+          <div>Open the <strong>Camini</strong> app on your device</div>
+        </li>
+        <li>
+          <div class="step-num">2</div>
+          <div>You'll land on your <strong>Profile page</strong> after signing in</div>
+        </li>
+        <li>
+          <div class="step-num">3</div>
+          <div>Scroll to the bottom and tap <strong>Delete Account</strong></div>
+        </li>
+        <li>
+          <div class="step-num">4</div>
+          <div>A confirmation dialog will appear — confirm to send a pre-filled deletion request email to us</div>
+        </li>
+        <li>
+          <div class="step-num">5</div>
+          <div>We will process your request and confirm deletion within <strong>30 days</strong></div>
+        </li>
+      </ol>
+    </div>
 
-<div class="steps">
-    <ol>
-        <li>Open the <strong>Camini</strong> app on your device</li>
-        <li>Tap your <strong>profile icon</strong> in the top-left corner</li>
-        <li>Tap <strong>Sign Out</strong></li>
-        <li>Then send a deletion request to us by email (see below)</li>
-    </ol>
-</div>
+    <div class="section">
+      <h2>What data is deleted</h2>
+      <ul class="item-list">
+        <li>
+          <span class="dot"></span>
+          <div><strong>Deleted immediately:</strong> Your account credentials (email and password) in Firebase Authentication, your profile document (name, email, country) in Firestore, and your profile photo in Firebase Storage</div>
+        </li>
+        <li>
+          <span class="dot"></span>
+          <div><strong>Deleted within 30 days:</strong> Any usage analytics associated with your account</div>
+        </li>
+        <li>
+          <span class="dot"></span>
+          <div><strong>Not deleted:</strong> Anonymous, aggregated analytics that cannot be linked back to you</div>
+        </li>
+      </ul>
+    </div>
 
-<p>To complete your account deletion, email us with the subject line <strong>"Delete my account"</strong> and include the email address associated with your Camini account.</p>
+    <div class="section">
+      <h2>Partial data deletion</h2>
+      <ul class="item-list">
+        <li>
+          <span class="dot"></span>
+          <div>If you would like to delete only specific data (such as your profile photo or analytics) without deleting your full account, contact us at the email below and we will process your request within 30 days.</div>
+        </li>
+      </ul>
+    </div>
 
-<a class="email-btn" href="mailto:jesus1288@gmail.com?subject=Delete%20my%20account">Email us to delete your account</a>
+    <div class="contact-card">
+      <p>Can't access the app or need help with your request? Email us directly.</p>
+      <a href="mailto:jesus1288@gmail.com?subject=Camini%20Account%20Deletion%20Request">✦ Email Us to Delete Account</a>
+    </div>
 
-<h2>What data is deleted</h2>
-<ul>
-    <li><strong>Deleted immediately:</strong> Your account credentials (email and password) held in Firebase Authentication</li>
-    <li><strong>Deleted within 30 days:</strong> Any usage analytics associated with your account</li>
-    <li><strong>Not deleted:</strong> Anonymous, aggregated analytics that cannot be linked back to you</li>
-</ul>
+    <div class="footer">
+      © 2026 Camini · <a href="privacy-policy.html">Privacy Policy</a>
+    </div>
 
-<h2>Partial data deletion</h2>
-<p>If you would like to delete only specific data (such as analytics) without deleting your account, email us at <a href="mailto:jesus1288@gmail.com">jesus1288@gmail.com</a> and we will process your request within 30 days.</p>
-
-<p style="margin-top: 48px; color: #888; font-size: 13px;">Camini · <a href="privacy-policy.html">Privacy Policy</a></p>
-
+  </div>
 </body>
 </html>
